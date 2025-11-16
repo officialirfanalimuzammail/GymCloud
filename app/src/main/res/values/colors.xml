@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<color name="black">#FF000000</color>
+<color name="white">#FFFFFFFF</color>
+<!-- Brand colors -->
+<color name="primaryColor">#00796B</color> <!-- Teal 700 -->
+<color name="primaryVariantColor">#004D40</color> <!-- Teal 900 -->
+<color name="secondaryColor">#FFB74D</color> <!-- Orange 300 -->
+<color name="secondaryVariantColor">#FF9800</color> <!-- Orange 500 -->
+<color name="ternaryColor">#D500F9</color> <!-- Purple A400 (for accents) -->
+
+<!-- Text/Icon colors to ensure sufficient contrast on different backgrounds -->
+<color name="onPrimaryColor">#FFFFFF</color>
+<color name="onSecondaryColor">#000000</color>
+<color name="onTernaryColor">#FFFFFF</color>
+<color name="onSurfaceColor">#212121</color> <!-- Grey 900 -->
+
+<!-- Surface/Background colors -->
+<color name="surfaceColor">#FFFFFF</color>
+<color name="backgroundColor">#FAFAFA</color> <!-- Grey 50 -->
+<color name="errorColor">#B00020</color>
+</resources>

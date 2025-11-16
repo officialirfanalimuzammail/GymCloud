@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GymCloud</string>
+    <string-array name="user_roles">
+        <item>Member</item>
+        <item>Admin</item>
+    </string-array>
+</resources>

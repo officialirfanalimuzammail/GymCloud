@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "941594448848",
+    "project_id": "gymcloud-efcd4",
+    "storage_bucket": "gymcloud-efcd4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941594448848:android:fb8462c2232177662f1fd5",
+        "android_client_info": {
+          "package_name": "com.example.gymcloud"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9_SUrC5f5goBc8LsU-db5wEFwRi8xtds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
