@@ -12,10 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GymCloud">
         <activity
+            android:name=".AdminProfileActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".GuestDashboardActivity"
+            android:exported="false" />
+        <activity
             android:name=".MemberProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminProfileActivity"
+            android:name=".CreateGymActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

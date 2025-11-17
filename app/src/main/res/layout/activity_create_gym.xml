@@ -1,0 +1,79 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    android:padding="24dp"
+    tools:context=".CreateGymActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header Text -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Welcome Admin"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="@color/onSurfaceColor"
+            android:layout_marginBottom="8dp"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/adminName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name: Admin"
+            android:textSize="16sp"
+            android:layout_marginBottom="32dp"
+            android:textAlignment="center"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Gym Name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputGymName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Gym Address">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputGymAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Gym Phone Number">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputGymPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSaveGym"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Gym Info"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+
+
+</ScrollView>

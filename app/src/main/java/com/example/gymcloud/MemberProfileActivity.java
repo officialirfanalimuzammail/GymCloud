@@ -24,20 +24,22 @@ public class MemberProfileActivity extends AppCompatActivity {
         String fullName = getIntent().getStringExtra("fullName");
         String email = getIntent().getStringExtra("email");
         String role = getIntent().getStringExtra("role");
-        String userId = getIntent().getStringExtra("userId");
+        String selectedGym = getIntent().getStringExtra("selectedGym");
+
 
         // Null-safe default values
         if (fullName == null) fullName = "N/A";
         if (email == null) email = "N/A";
         if (role == null) role = "N/A";
-        if (userId == null) userId = "N/A";
+        if (selectedGym == null) selectedGym = "N/A";
+
 
         // Set profile text
         memberName.setText(
                 "Name: " + fullName +
                         "\nEmail: " + email +
                         "\nRole: " + role +
-                        "\nUserID: " + userId
+                        "\nSelected Gym: " + selectedGym
         );
     }
 }
