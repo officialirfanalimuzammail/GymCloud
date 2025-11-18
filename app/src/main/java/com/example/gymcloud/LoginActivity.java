@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
 
         initViews();
         loadSavedLogin();
-        autoLoginIfRemembered();
         setupListeners();
     }
 
@@ -59,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
         rememberMeCheck = findViewById(R.id.checkbox_remember_me);
     }
 
-    /** Load email + password from SharedPreferences **/
     private void loadSavedLogin() {
         String savedEmail = prefs.getString("email", "");
         String savedPass = prefs.getString("password", "");
@@ -70,28 +68,14 @@ public class LoginActivity extends AppCompatActivity {
         rememberMeCheck.setChecked(savedCheck);
     }
 
-    /** Auto-login if previously saved **/
-    private void autoLoginIfRemembered() {
-        boolean remembered = prefs.getBoolean("remember", false);
-
-        if (remembered) {
-            FirebaseUser currentUser = mAuth.getCurrentUser();
-            if (currentUser != null) {
-                fetchUserData(currentUser.getUid());
-            }
-        }
-    }
-
     private void setupListeners() {
         loginButton.setOnClickListener(v -> handleLogin());
         signupButton.setOnClickListener(v ->
                 startActivity(new Intent(LoginActivity.this, SignupActivity.class)));
         forgotPasswordText.setOnClickListener(v -> handleForgotPassword());
-
     }
 
     private void handleForgotPassword() {
-
         String email = emailEditText.getText().toString().trim();
 
         if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -103,8 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this,
-                                "Password reset email sent!",
-                                Toast.LENGTH_LONG).show();
+                                "Password reset email sent!", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(LoginActivity.this,
                                 "Failed: " + task.getException().getMessage(),
@@ -177,7 +160,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    /** Fetch profile **/
     private void fetchUserData(String uid) {
 
         usersRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -207,14 +189,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(LoginActivity.this,
-                        "Failed to load user data.",
-                        Toast.LENGTH_SHORT).show();
+                        "Failed to load user data.", Toast.LENGTH_SHORT).show();
                 loginButton.setEnabled(true);
             }
         });
     }
 
-    /** Redirect user **/
     private void redirectToCorrectScreen(String uid, String fullName, String email,
                                          String phone, String role,
                                          String gymId, String gymName) {
