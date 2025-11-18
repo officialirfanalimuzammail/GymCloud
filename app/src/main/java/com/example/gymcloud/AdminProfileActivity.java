@@ -2,6 +2,7 @@ package com.example.gymcloud;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +22,7 @@ public class AdminProfileActivity extends AppCompatActivity {
     private DatabaseReference userRef, gymRef, membersRef;
 
     private String adminId;
-    private String gymId; // fetched from admin profile in DB
+    private String gymId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,13 @@ public class AdminProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_profile);
 
         mAuth = FirebaseAuth.getInstance();
+
+        if (mAuth.getCurrentUser() == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         adminId = mAuth.getCurrentUser().getUid();
 
         userRef = FirebaseDatabase.getInstance().getReference("Users").child(adminId);
@@ -58,15 +66,23 @@ public class AdminProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                if (!snapshot.exists()) return;
+                if (!snapshot.exists()) {
+                    Toast.makeText(AdminProfileActivity.this, "Profile not found!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 String fullName = snapshot.child("fullName").getValue(String.class);
-                gymId = snapshot.child("gymId").getValue(String.class); // You must save this during signup
+                gymId = snapshot.child("gymId").getValue(String.class);
 
-                txtAdminName.setText(fullName);
+                txtAdminName.setText(fullName != null ? fullName : "Admin");
 
-                if (gymId != null) loadGymInfo(gymId);
-                loadMembersCount();
+                if (gymId != null && !gymId.isEmpty()) {
+                    loadGymInfo(gymId);
+                    loadMembersCount(gymId);
+                } else {
+                    txtGymName.setText("Gym not found");
+                    txtTotalMembers.setText("Total Members: 0");
+                }
             }
 
             @Override
@@ -75,6 +91,7 @@ public class AdminProfileActivity extends AppCompatActivity {
     }
 
     private void loadGymInfo(String gymId) {
+
         gymRef.child(gymId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -88,8 +105,10 @@ public class AdminProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void loadMembersCount() {
-        membersRef.orderByChild("gymId").equalTo(gymId)
+    // ✔ FIXED: Matches your Firebase structure (Members → gymId → memberId : true)
+    private void loadMembersCount(String gymId) {
+
+        membersRef.child(gymId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -105,14 +124,23 @@ public class AdminProfileActivity extends AppCompatActivity {
 
     private void setupButtons() {
 
-        btnShowAllMembers.setOnClickListener(v ->
-                startActivity(new Intent(this, LoginActivity.class)));
+        btnShowAllMembers.setOnClickListener(v -> {
+            Intent i = new Intent(this, LoginActivity.class);
+            i.putExtra("gymId", gymId);
+            startActivity(i);
+        });
 
-        btnFeeDefaulters.setOnClickListener(v ->
-                startActivity(new Intent(this, LoginActivity.class)));
+        btnFeeDefaulters.setOnClickListener(v -> {
+            Intent i = new Intent(this, LoginActivity.class);
+            i.putExtra("gymId", gymId);
+            startActivity(i);
+        });
 
-        btnSubmitFee.setOnClickListener(v ->
-                startActivity(new Intent(this, LoginActivity.class)));
+        btnSubmitFee.setOnClickListener(v -> {
+            Intent i = new Intent(this, LoginActivity.class);
+            i.putExtra("gymId", gymId);
+            startActivity(i);
+        });
 
         btnEditProfile.setOnClickListener(v ->
                 startActivity(new Intent(this, LoginActivity.class)));

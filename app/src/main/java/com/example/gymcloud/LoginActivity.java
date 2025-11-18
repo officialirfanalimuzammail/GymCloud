@@ -1,9 +1,12 @@
 package com.example.gymcloud;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,9 +24,13 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText emailEditText, passwordEditText;
     private TextInputLayout emailLayout, passwordLayout;
     private MaterialButton loginButton, signupButton;
+    private CheckBox rememberMeCheck;
+    private TextView forgotPasswordText;
 
     private FirebaseAuth mAuth;
     private DatabaseReference usersRef;
+
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,26 +39,78 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         usersRef = FirebaseDatabase.getInstance().getReference("Users");
+        prefs = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
 
         initViews();
+        loadSavedLogin();
+        autoLoginIfRemembered();
         setupListeners();
     }
 
     private void initViews() {
         emailEditText = findViewById(R.id.login_email_edit_text);
         passwordEditText = findViewById(R.id.login_password_edit_text);
-
+        forgotPasswordText = findViewById(R.id.login_forgot_password);
         emailLayout = findViewById(R.id.login_email_layout);
         passwordLayout = findViewById(R.id.login_password_layout);
 
         loginButton = findViewById(R.id.login_button);
         signupButton = findViewById(R.id.login_signup_button);
+        rememberMeCheck = findViewById(R.id.checkbox_remember_me);
+    }
+
+    /** Load email + password from SharedPreferences **/
+    private void loadSavedLogin() {
+        String savedEmail = prefs.getString("email", "");
+        String savedPass = prefs.getString("password", "");
+        boolean savedCheck = prefs.getBoolean("remember", false);
+
+        emailEditText.setText(savedEmail);
+        passwordEditText.setText(savedPass);
+        rememberMeCheck.setChecked(savedCheck);
+    }
+
+    /** Auto-login if previously saved **/
+    private void autoLoginIfRemembered() {
+        boolean remembered = prefs.getBoolean("remember", false);
+
+        if (remembered) {
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if (currentUser != null) {
+                fetchUserData(currentUser.getUid());
+            }
+        }
     }
 
     private void setupListeners() {
         loginButton.setOnClickListener(v -> handleLogin());
         signupButton.setOnClickListener(v ->
                 startActivity(new Intent(LoginActivity.this, SignupActivity.class)));
+        forgotPasswordText.setOnClickListener(v -> handleForgotPassword());
+
+    }
+
+    private void handleForgotPassword() {
+
+        String email = emailEditText.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailLayout.setError("Enter your email first");
+            return;
+        }
+
+        mAuth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(LoginActivity.this,
+                                "Password reset email sent!",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(LoginActivity.this,
+                                "Failed: " + task.getException().getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     private void handleLogin() {
@@ -100,6 +159,17 @@ public class LoginActivity extends AppCompatActivity {
                         return;
                     }
 
+                    /** Save login if user checked Remember Me */
+                    if (rememberMeCheck.isChecked()) {
+                        prefs.edit()
+                                .putString("email", email)
+                                .putString("password", password)
+                                .putBoolean("remember", true)
+                                .apply();
+                    } else {
+                        prefs.edit().clear().apply();
+                    }
+
                     FirebaseUser user = mAuth.getCurrentUser();
                     if (user != null) {
                         fetchUserData(user.getUid());
@@ -107,7 +177,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    /** Fetch full user profile from Firebase **/
+    /** Fetch profile **/
     private void fetchUserData(String uid) {
 
         usersRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -123,18 +193,15 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Base fields
                 String fullName = snapshot.child("fullName").getValue(String.class);
                 String email = snapshot.child("email").getValue(String.class);
+                String phone = snapshot.child("phone").getValue(String.class);
                 String role = snapshot.child("role").getValue(String.class);
 
-                if (role == null) role = "Guest"; // fail-safe
-
-                // For Members only
                 String gymId = snapshot.child("gymId").getValue(String.class);
                 String gymName = snapshot.child("gymName").getValue(String.class);
 
-                redirectToCorrectScreen(uid, fullName, email, role, gymId, gymName);
+                redirectToCorrectScreen(uid, fullName, email, phone, role, gymId, gymName);
             }
 
             @Override
@@ -147,14 +214,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /** Redirect user based on role + pass all extras **/
+    /** Redirect user **/
     private void redirectToCorrectScreen(String uid, String fullName, String email,
-                                         String role, String gymId, String gymName) {
+                                         String phone, String role,
+                                         String gymId, String gymName) {
 
         Intent intent;
 
         switch (role) {
-
             case "Admin":
                 intent = new Intent(this, AdminProfileActivity.class);
                 break;
@@ -165,20 +232,18 @@ public class LoginActivity extends AppCompatActivity {
                 intent.putExtra("gymName", gymName);
                 break;
 
-            default: // Guest or Unknown
+            default:
                 intent = new Intent(this, GuestDashboardActivity.class);
                 break;
         }
 
-        // Common extras
         intent.putExtra("userId", uid);
         intent.putExtra("fullName", fullName);
         intent.putExtra("email", email);
+        intent.putExtra("phone", phone);
         intent.putExtra("role", role);
 
-        // Clear backstack
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
         startActivity(intent);
         finish();
     }
