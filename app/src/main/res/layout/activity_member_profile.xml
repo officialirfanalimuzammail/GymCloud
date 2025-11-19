@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
+    android:background="#8400C853"
     android:padding="24dp"
     tools:context=".MemberProfileActivity">
 
@@ -11,26 +11,294 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center">
+        android:gravity="center_horizontal">
 
-        <!-- Header Text -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Welcome Member"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:textColor="@color/onSurfaceColor"
-            android:layout_marginBottom="8dp"
-            android:textAlignment="center"/>
-
+        <!-- Header -->
         <TextView
             android:id="@+id/memberName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name: Member"
+            android:text="Welcome"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.03"
+            android:textColor="@color/onSurfaceColor"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="6dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/memberEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone: Loading..."
             android:textSize="16sp"
-            android:layout_marginBottom="32dp"
-            android:textAlignment="center"/>
+            android:textColor="@color/onSurfaceColor"
+            android:layout_marginBottom="30dp"
+            android:gravity="center" />
+
+        <!-- ======================= -->
+        <!--      FEE DETAILS        -->
+        <!-- ======================= -->
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/titleFeeDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fee Details"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:background="@drawable/rounded_card"
+            android:clickable="true"
+            android:focusable="true"
+            android:elevation="4dp"
+            android:textColor="@color/onSurfaceColor"
+            android:layout_marginTop="16dp" />
+
+        <!-- Content -->
+        <LinearLayout
+            android:id="@+id/sectionFeeDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/rounded_card"
+            android:layout_marginTop="4dp"
+            android:elevation="4dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Joining Date: 01 December 2020"
+                android:textSize="16sp"
+                android:textColor="@color/onSurfaceColor"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Upcoming Fee Date: 01 December 2025"
+                android:textSize="16sp"
+                android:textColor="@color/onSurfaceColor"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Fee Status: Paid"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primaryColor" />
+        </LinearLayout>
+
+
+        <!-- ======================= -->
+        <!--   PERSONAL GROWTH       -->
+        <!-- ======================= -->
+
+        <TextView
+            android:id="@+id/titlePersonalGrowth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Personal Growth"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:background="@drawable/rounded_card"
+            android:clickable="true"
+            android:focusable="true"
+            android:elevation="4dp"
+            android:textColor="@color/onSurfaceColor"
+            android:layout_marginTop="16dp" />
+
+        <LinearLayout
+            android:id="@+id/sectionPersonalGrowth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/rounded_card"
+            android:layout_marginTop="4dp"
+            android:elevation="4dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Weight: 81 kg"
+                android:textSize="16sp"
+                android:textColor="@color/onSurfaceColor"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Height: 5 feet 10 inches"
+                android:textSize="16sp"
+                android:textColor="@color/onSurfaceColor"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BMI: 26"
+                android:textSize="16sp"
+                android:textColor="@color/onSurfaceColor"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Health Status: Healthy"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/primaryColor" />
+        </LinearLayout>
+
+
+        <!-- ======================= -->
+        <!--      ATTENDANCE         -->
+        <!-- ======================= -->
+
+        <TextView
+            android:id="@+id/titleAttendance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Attendance"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:background="@drawable/rounded_card"
+            android:clickable="true"
+            android:focusable="true"
+            android:elevation="4dp"
+            android:textColor="@color/onSurfaceColor"
+            android:layout_marginTop="16dp" />
+
+        <LinearLayout
+            android:id="@+id/sectionAttendance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/rounded_card"
+            android:layout_marginTop="4dp"
+            android:elevation="4dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This Month: 18 Days"
+                android:textSize="16sp"
+                android:textColor="@color/onSurfaceColor"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Attendance: 420 Days"
+                android:textSize="16sp"
+                android:textColor="@color/onSurfaceColor" />
+        </LinearLayout>
+
+
+        <!-- ======================= -->
+        <!--      WORKOUT            -->
+        <!-- ======================= -->
+
+        <TextView
+            android:id="@+id/titleWorkout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Workout Summary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:background="@drawable/rounded_card"
+            android:clickable="true"
+            android:focusable="true"
+            android:elevation="4dp"
+            android:textColor="@color/onSurfaceColor"
+            android:layout_marginTop="16dp" />
+
+        <LinearLayout
+            android:id="@+id/sectionWorkout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/rounded_card"
+            android:layout_marginTop="4dp"
+            android:elevation="4dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Plan: Push Pull Legs"
+                android:textSize="16sp"
+                android:textColor="@color/onSurfaceColor"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Workout: Chest + Shoulders"
+                android:textSize="16sp"
+                android:textColor="@color/onSurfaceColor" />
+        </LinearLayout>
+
+
+        <!-- ======================= -->
+        <!--      FEE HISTORY        -->
+        <!-- ======================= -->
+
+        <TextView
+            android:id="@+id/titleFeeHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fee History"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:background="@drawable/rounded_card"
+            android:clickable="true"
+            android:focusable="true"
+            android:elevation="4dp"
+            android:textColor="@color/onSurfaceColor"
+            android:layout_marginTop="16dp" />
+
+        <LinearLayout
+            android:id="@+id/sectionFeeHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/rounded_card"
+            android:layout_marginTop="4dp"
+            android:elevation="4dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Paid: December 2024"
+                android:textSize="16sp"
+                android:textColor="@color/onSurfaceColor"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Months Paid: 48"
+                android:textSize="16sp"
+                android:textColor="@color/onSurfaceColor" />
+        </LinearLayout>
+
     </LinearLayout>
+
 </ScrollView>
